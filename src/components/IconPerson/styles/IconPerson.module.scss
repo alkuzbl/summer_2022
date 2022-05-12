@@ -1,0 +1,21 @@
+.icon {
+  display: flex;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+
+  &:first-child {
+    margin-right: 16px;
+  }
+
+  &__img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+
+  &__count {
+    margin-right: 4px;
+  }
+}

@@ -1,0 +1,65 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 21px;
+  color: #808080;
+
+  &__pages {
+    margin-right: 24px;
+  }
+
+  &__inner {
+    display: flex;
+    margin: 0 9px;
+  }
+
+  &__button {
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    color: inherit;
+    svg{
+      transition: all .3s;
+    }
+    &:hover{
+      svg{
+        fill: #0064EB;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+  }
+
+  &__item {
+    border-radius: 3px;
+    margin-right: 11px;
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+
+  &__span{
+    margin-right: 20px;
+    padding: 2px 0px;
+  }
+  &__totalPage{
+    cursor: pointer;
+  }
+
+  .active{
+    background-color: #0064EB;
+    color: #ffffff;
+  }
+
+  .disabled{
+      &:hover{
+        svg{
+          fill: #808080;
+
+      }
+    }
+  }
+
+}

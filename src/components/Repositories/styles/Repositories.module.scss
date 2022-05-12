@@ -1,0 +1,29 @@
+.repositories{
+  padding-top: 28px;
+  width: 100%;
+
+  &__title{
+    margin-bottom: 29px;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 130%;
+  }
+  &__pagination{
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px 20px 0 0;
+  }
+}
+
+.container{
+  padding-top: 221px;
+  margin: 0 auto;
+}
+
+.icon{
+  max-width: 245px;
+  img{
+    width: 76px;
+  }
+}
+

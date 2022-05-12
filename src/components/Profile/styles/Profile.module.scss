@@ -1,0 +1,35 @@
+.profile {
+  padding-top: 39px;
+  margin-right: 96px;
+  min-width: 280px;
+
+  &__img {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    margin-bottom: 29px;
+  }
+
+  &__title {
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 130%;
+
+  }
+
+  &__link {
+    display: inline-block;
+    margin-bottom: 31px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #0064EB;
+  }
+
+  &__inner {
+    display: flex;
+  }
+}
+
+

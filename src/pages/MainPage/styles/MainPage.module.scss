@@ -1,0 +1,15 @@
+.mainPage{
+  background: #F9F9F9;
+  &__wrapper{
+    display: flex;
+    margin: 0 auto;
+    max-width: 1366px;
+    padding: 0 57px;
+    min-height: calc(100vh - 72px);
+  }
+  &__position{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
