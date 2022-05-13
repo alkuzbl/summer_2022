@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { getRepositories } from '../middlewares/getRepositories';
+import { getUser } from '../middlewares/getUser';
 import { InitStateRepositoryType, StatusType } from '../types';
 
 const initStateRepository: InitStateRepositoryType = {
   status: 'idle',
   repository: [],
   currentPage: 1,
+  defaultIndex: 1,
   error: null,
 };
 
@@ -20,6 +22,9 @@ const repositorySlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload.currentPage;
     },
+    setIndexPage: (state, action) => {
+      state.defaultIndex = action.payload.defaultIndex;
+    },
   },
   extraReducers: builder => {
     builder.addCase(getRepositories.fulfilled, (state, action) => {
@@ -30,9 +35,11 @@ const repositorySlice = createSlice({
       state.error = action.payload as string;
       state.status = 'failed';
     });
+    builder.addCase(getUser.pending, () => initStateRepository);
   },
 });
 
 export const repositoryReducer = repositorySlice.reducer;
 
-export const { getStatusRepository, setCurrentPage } = repositorySlice.actions;
+export const { getStatusRepository, setCurrentPage, setIndexPage } =
+  repositorySlice.actions;

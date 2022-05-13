@@ -2,9 +2,10 @@ import React, { FC, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { usePagination } from '../../hooks/usePagination';
-import { setCurrentPage } from '../../redux/reducers/repository-reducer';
+import { usePagination } from '../../hooks/usePagination2';
+import { setCurrentPage, setIndexPage } from '../../redux/reducers/repository-reducer';
 import { AppDispatch, RootState } from '../../redux/store';
+import { ArrowButton } from '../ArrowButton/ArrowButton';
 
 import styles from './styles/Pagination.module.scss';
 import { PaginationPropsType } from './types';
@@ -15,6 +16,9 @@ export const Pagination: FC<PaginationPropsType> = props => {
   const { totalCount, perPage } = props;
   const defaultCurrentPage = useSelector<RootState, number>(
     state => state.repository.currentPage,
+  );
+  const defaultIndex = useSelector<RootState, number>(
+    state => state.repository.defaultIndex,
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -28,7 +32,14 @@ export const Pagination: FC<PaginationPropsType> = props => {
     pages,
     totalCountPages,
     currentPage,
-  } = usePagination({ perPage, portionSize, totalCount, defaultCurrentPage });
+    index,
+  } = usePagination({
+    perPage,
+    portionSize,
+    totalCount,
+    defaultCurrentPage,
+    defaultIndex,
+  });
 
   const handleClickNextPage = (): void => nextPage();
 
@@ -40,7 +51,8 @@ export const Pagination: FC<PaginationPropsType> = props => {
 
   useEffect(() => {
     dispatch(setCurrentPage({ currentPage }));
-  }, [currentPage]);
+    dispatch(setIndexPage({ defaultIndex: index }));
+  }, [currentPage, defaultIndex]);
 
   return (
     <div className={styles.pagination}>
@@ -48,26 +60,11 @@ export const Pagination: FC<PaginationPropsType> = props => {
         <span>{firstElement}</span>-<span>{lastElement}</span> of{' '}
         <span>{totalCount}</span> items
       </div>
-      <button
-        className={
-          currentPage <= portionSize
-            ? `${styles.pagination__button} ${styles.disabled}`
-            : styles.pagination__button
-        }
-        type="button"
-        onClick={handleClickPrevPage}
+      <ArrowButton
         disabled={currentPage <= portionSize}
-      >
-        <svg
-          width="8"
-          height="12"
-          viewBox="0 0 8 12"
-          fill="#808080"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M3.41436 6.00008L7.70726 1.70718L6.29304 0.292969L0.585938 6.00008L6.29304 11.7072L7.70726 10.293L3.41436 6.00008Z" />
-        </svg>
-      </button>
+        onClick={handleClickPrevPage}
+        isPrevArrow
+      />
       <div className={styles.pagination__inner}>
         <ul className={styles.pagination__list}>
           {pages.map(page => (
@@ -95,26 +92,11 @@ export const Pagination: FC<PaginationPropsType> = props => {
           {totalCountPages}
         </span>
       </div>
-      <button
-        className={
-          currentPage >= totalCountPages
-            ? `${styles.pagination__button} ${styles.disabled}`
-            : styles.pagination__button
-        }
-        type="button"
-        onClick={handleClickNextPage}
+      <ArrowButton
         disabled={currentPage >= totalCountPages}
-      >
-        <svg
-          width="8"
-          height="12"
-          viewBox="0 0 8 12"
-          fill="#808080"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M5.58564 6.99814L1.30579 11.304L2.72429 12.714L8.41405 6.98956L2.68966 1.29978L1.27973 2.71827L5.58564 6.99814Z" />
-        </svg>
-      </button>
+        onClick={handleClickNextPage}
+        isPrevArrow={false}
+      />
     </div>
   );
 };

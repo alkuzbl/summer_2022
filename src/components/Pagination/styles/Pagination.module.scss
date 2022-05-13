@@ -14,22 +14,6 @@
     margin-left: 20px;
   }
 
-  &__button {
-    cursor: pointer;
-    padding: 0;
-    border: none;
-    color: inherit;
-
-    svg {
-      transition: all .3s;
-    }
-
-    &:hover {
-      svg {
-        fill: #0064EB;
-      }
-    }
-  }
 
   &__list {
     display: flex;
@@ -58,12 +42,4 @@
     color: #ffffff;
   }
 
-  .disabled {
-    cursor: inherit;
-    &:hover {
-      svg {
-        fill: #808080;
-      }
-    }
-  }
 }

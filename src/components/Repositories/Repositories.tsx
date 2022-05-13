@@ -36,10 +36,6 @@ export const Repositories: FC<RepositoriesPropsType> = ({ publicRepos, login }) 
     }
   }, [login, currentPage]);
 
-  if (repositoryStatus === 'loading') {
-    return <Spinner />;
-  }
-
   if (!publicRepos) {
     return (
       <div className={styles.container}>
@@ -62,6 +58,15 @@ export const Repositories: FC<RepositoriesPropsType> = ({ publicRepos, login }) 
       ))}
       <div className={styles.repositories__pagination}>
         <Pagination totalCount={publicRepos} perPage={4} />
+      </div>
+      <div
+        className={
+          repositoryStatus === 'loading'
+            ? `${styles.modal} ${styles.active}`
+            : styles.modal
+        }
+      >
+        <Spinner />
       </div>
     </div>
   );

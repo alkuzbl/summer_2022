@@ -1,0 +1,27 @@
+.arrowButton {
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  color: inherit;
+
+  svg {
+    transition: all .3s;
+  }
+
+  &:hover {
+    svg {
+      fill: #0064EB;
+    }
+  }
+}
+
+
+.disabled {
+  cursor: inherit;
+
+  &:hover {
+    svg {
+      fill: #808080;
+    }
+  }
+}
