@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getRepositories } from '../../redux/middlewares/getRepositories';
 import { AppDispatch, RootState } from '../../redux/store';
-import { RepositoryType, StatusType } from '../../redux/types';
+import { InitStateRepositoryType, RepositoryType } from '../../redux/types';
 import { Icon } from '../Icon/Icon';
 import { Pagination } from '../Pagination/Pagination';
 import { Repository } from '../Repository/Repository';
@@ -25,15 +25,16 @@ export const Repositories: FC<RepositoriesPropsType> = ({ publicRepos, login }) 
   const repositories = useSelector<RootState, RepositoryType[]>(
     state => state.repository.repository,
   );
-  const repositoryStatus = useSelector<RootState, StatusType>(
-    state => state.repository.status,
-  );
+  const { status: repositoryStatus, currentPage } = useSelector<
+    RootState,
+    InitStateRepositoryType
+  >(state => state.repository);
 
   useEffect(() => {
     if (publicRepos && login) {
-      dispatch(getRepositories({ page: 1, perPage: 4, userName: login }));
+      dispatch(getRepositories({ page: currentPage, perPage: 4, userName: login }));
     }
-  }, [login]);
+  }, [login, currentPage]);
 
   if (repositoryStatus === 'loading') {
     return <Spinner />;

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type UsePaginationType = {
-  defaultCurrentPage?: number;
   portionSize: number;
   totalCount: number;
   perPage: number;
+  defaultCurrentPage: number;
 };
 
 type ReturnUsePaginationType = {
@@ -17,55 +17,55 @@ type ReturnUsePaginationType = {
   firstElement: number;
   lastElement: number;
 };
-export const usePagination = (options: UsePaginationType): ReturnUsePaginationType => {
-  const { totalCount, defaultCurrentPage = 1, perPage, portionSize } = options;
 
+const DEFAULT_NUMBER_PAGE = 1;
+const DEFAULT_INDEX = 1;
+
+export const usePagination = (options: UsePaginationType): ReturnUsePaginationType => {
+  const { totalCount, perPage, portionSize, defaultCurrentPage } = options;
   const totalCountPages = Math.ceil(totalCount / perPage);
+
   const [currentPage, setCurrentPage] = useState(defaultCurrentPage);
-  const [index, setIndex] = useState(defaultCurrentPage);
+  const [index, setIndex] = useState(DEFAULT_INDEX);
 
   let lastElement = currentPage * perPage;
   const firstElement = lastElement - perPage + 1;
+
   if (lastElement > totalCount) {
     lastElement = totalCount;
   }
 
-  const pages: number[] = [];
+  const dataPages: number[] = [];
   for (let i = 1; i <= totalCountPages; i += 1) {
-    pages.push(i);
+    dataPages.push(i);
   }
-  let newArr: number[];
+  let pages: number[];
 
   if (totalCountPages < index + portionSize && totalCountPages >= portionSize) {
-    newArr = pages.slice(totalCountPages - portionSize, totalCountPages);
+    pages = dataPages.slice(totalCountPages - portionSize, totalCountPages);
   } else if (totalCountPages < portionSize) {
-    newArr = pages.slice(0, totalCountPages);
+    pages = dataPages.slice(0, totalCountPages);
   } else {
-    newArr = pages.slice(index - 1, index - 1 + portionSize);
+    pages = dataPages.slice(index - 1, index - 1 + portionSize);
   }
 
   const handleClickNextPage = (): void => {
-    setIndex(prevState => prevState + 3);
-
+    setIndex(prevState => prevState + portionSize);
     setCurrentPage(index - 1 + perPage);
   };
 
   const handleClickPrevPage = (): void => {
-    if (index <= 1) {
-      setIndex(1);
-      setCurrentPage(1);
+    if (index <= DEFAULT_INDEX) {
+      setIndex(DEFAULT_INDEX);
+      setCurrentPage(DEFAULT_NUMBER_PAGE);
     } else {
-      setIndex(index - 3);
-      setCurrentPage(index);
+      setIndex(prevState => prevState - portionSize);
+      setCurrentPage(index - 1);
     }
   };
 
-  useEffect(() => {
-    setCurrentPage(index);
-  }, [index]);
-
   const handleClickPage = (numberPage: number): void => {
-    if (newArr.indexOf(numberPage) !== -1) {
+    if (pages.indexOf(numberPage) !== -1) {
       if (numberPage > totalCountPages) {
         setCurrentPage(totalCountPages);
       } else if (numberPage < 1) {
@@ -82,8 +82,9 @@ export const usePagination = (options: UsePaginationType): ReturnUsePaginationTy
       setIndex(numberPage);
     }
   };
+
   return {
-    pages: newArr,
+    pages,
     prevPage: handleClickPrevPage,
     nextPage: handleClickNextPage,
     selectPage: handleClickPage,

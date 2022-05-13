@@ -28,5 +28,6 @@ export type InitStateUserType = {
 export type InitStateRepositoryType = {
   status: StatusType;
   repository: RepositoryType[];
+  currentPage: number;
   error: string | null;
 };

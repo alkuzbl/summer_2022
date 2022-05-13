@@ -6,12 +6,12 @@
   color: #808080;
 
   &__pages {
-    margin-right: 24px;
+    margin-right: 22px;
   }
 
   &__inner {
     display: flex;
-    margin: 0 9px;
+    margin-left: 20px;
   }
 
   &__button {
@@ -19,11 +19,13 @@
     padding: 0;
     border: none;
     color: inherit;
-    svg{
+
+    svg {
       transition: all .3s;
     }
-    &:hover{
-      svg{
+
+    &:hover {
+      svg {
         fill: #0064EB;
       }
     }
@@ -31,35 +33,37 @@
 
   &__list {
     display: flex;
+
   }
 
   &__item {
     border-radius: 3px;
-    margin-right: 11px;
-    cursor: pointer;
+    margin-right: 10px;
     padding: 2px 6px;
-  }
-
-  &__span{
-    margin-right: 20px;
-    padding: 2px 0px;
-  }
-  &__totalPage{
     cursor: pointer;
   }
 
-  .active{
+  &__span {
+    margin-right: 16px;
+  }
+
+  &__totalPage {
+    cursor: pointer;
+    padding: 2px 0;
+    margin-right: 26px;
+  }
+
+  .active {
     background-color: #0064EB;
     color: #ffffff;
   }
 
-  .disabled{
-      &:hover{
-        svg{
-          fill: #808080;
-
+  .disabled {
+    cursor: inherit;
+    &:hover {
+      svg {
+        fill: #808080;
       }
     }
   }
-
 }

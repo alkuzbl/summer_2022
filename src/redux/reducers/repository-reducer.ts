@@ -6,6 +6,7 @@ import { InitStateRepositoryType, StatusType } from '../types';
 const initStateRepository: InitStateRepositoryType = {
   status: 'idle',
   repository: [],
+  currentPage: 1,
   error: null,
 };
 
@@ -15,6 +16,9 @@ const repositorySlice = createSlice({
   reducers: {
     getStatusRepository: (state, action: PayloadAction<StatusType>) => {
       state.status = action.payload;
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload.currentPage;
     },
   },
   extraReducers: builder => {
@@ -31,4 +35,4 @@ const repositorySlice = createSlice({
 
 export const repositoryReducer = repositorySlice.reducer;
 
-export const { getStatusRepository } = repositorySlice.actions;
+export const { getStatusRepository, setCurrentPage } = repositorySlice.actions;

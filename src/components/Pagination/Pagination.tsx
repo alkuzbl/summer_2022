@@ -1,15 +1,24 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import { usePagination } from '../../hooks/usePagination';
+import { setCurrentPage } from '../../redux/reducers/repository-reducer';
+import { AppDispatch, RootState } from '../../redux/store';
 
 import styles from './styles/Pagination.module.scss';
 import { PaginationPropsType } from './types';
 
-const defaultCurrentPage = 1;
 const portionSize = 3;
 
 export const Pagination: FC<PaginationPropsType> = props => {
   const { totalCount, perPage } = props;
+  const defaultCurrentPage = useSelector<RootState, number>(
+    state => state.repository.currentPage,
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     firstElement,
     lastElement,
@@ -19,7 +28,7 @@ export const Pagination: FC<PaginationPropsType> = props => {
     pages,
     totalCountPages,
     currentPage,
-  } = usePagination({ perPage, defaultCurrentPage, totalCount, portionSize });
+  } = usePagination({ perPage, portionSize, totalCount, defaultCurrentPage });
 
   const handleClickNextPage = (): void => nextPage();
 
@@ -29,6 +38,10 @@ export const Pagination: FC<PaginationPropsType> = props => {
 
   const showLastPage = (): void => {};
 
+  useEffect(() => {
+    dispatch(setCurrentPage({ currentPage }));
+  }, [currentPage]);
+
   return (
     <div className={styles.pagination}>
       <div className={styles.pagination__pages}>
@@ -37,13 +50,13 @@ export const Pagination: FC<PaginationPropsType> = props => {
       </div>
       <button
         className={
-          currentPage === 1
+          currentPage <= portionSize
             ? `${styles.pagination__button} ${styles.disabled}`
             : styles.pagination__button
         }
         type="button"
         onClick={handleClickPrevPage}
-        disabled={currentPage === 1}
+        disabled={currentPage <= portionSize}
       >
         <svg
           width="8"
