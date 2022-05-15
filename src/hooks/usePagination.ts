@@ -67,9 +67,6 @@ export const usePagination = (options: UsePaginationType): ReturnUsePaginationTy
       setCurrentPage(prevPage);
     }
   };
-  console.log('nextPage', nextPage);
-  console.log('portionNumber', portionNumber);
-  console.log('prevPage', prevPage);
 
   const onClickSelectPage = (numberPage: number): void => {
     setCurrentPage(numberPage);
