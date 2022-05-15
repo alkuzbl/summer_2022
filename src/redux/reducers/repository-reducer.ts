@@ -8,7 +8,7 @@ const initStateRepository: InitStateRepositoryType = {
   status: 'idle',
   repository: [],
   currentPage: 1,
-  defaultIndex: 1,
+  perPage: 4,
   error: null,
 };
 
@@ -21,9 +21,6 @@ const repositorySlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload.currentPage;
-    },
-    setIndexPage: (state, action) => {
-      state.defaultIndex = action.payload.defaultIndex;
     },
   },
   extraReducers: builder => {
@@ -41,5 +38,4 @@ const repositorySlice = createSlice({
 
 export const repositoryReducer = repositorySlice.reducer;
 
-export const { getStatusRepository, setCurrentPage, setIndexPage } =
-  repositorySlice.actions;
+export const { getStatusRepository, setCurrentPage } = repositorySlice.actions;

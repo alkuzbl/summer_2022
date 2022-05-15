@@ -25,14 +25,15 @@ export const Repositories: FC<RepositoriesPropsType> = ({ publicRepos, login }) 
   const repositories = useSelector<RootState, RepositoryType[]>(
     state => state.repository.repository,
   );
-  const { status: repositoryStatus, currentPage } = useSelector<
-    RootState,
-    InitStateRepositoryType
-  >(state => state.repository);
+  const {
+    status: repositoryStatus,
+    currentPage,
+    perPage,
+  } = useSelector<RootState, InitStateRepositoryType>(state => state.repository);
 
   useEffect(() => {
     if (publicRepos && login) {
-      dispatch(getRepositories({ page: currentPage, perPage: 4, userName: login }));
+      dispatch(getRepositories({ page: currentPage, perPage, userName: login }));
     }
   }, [login, currentPage]);
 
@@ -53,12 +54,17 @@ export const Repositories: FC<RepositoriesPropsType> = ({ publicRepos, login }) 
       <h3 className={styles.repositories__title}>
         Repositories (<span>{publicRepos}</span>)
       </h3>
+
       {repositories.map(({ html_url: url, name, description, id }) => (
         <Repository key={id} title={name} link={url} description={description} />
       ))}
-      <div className={styles.repositories__pagination}>
-        <Pagination totalCount={publicRepos} perPage={4} />
-      </div>
+
+      {publicRepos >= perPage && (
+        <div className={styles.repositories__pagination}>
+          <Pagination totalCount={publicRepos} perPage={perPage} />
+        </div>
+      )}
+
       <div
         className={
           repositoryStatus === 'loading'

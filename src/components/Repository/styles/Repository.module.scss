@@ -1,11 +1,12 @@
-.repository{
+.repository {
   padding: 24px 32px;
   margin-bottom: 24px;
   border-radius: 6px;
   width: 100%;
   min-height: 113px;
   background-color: #ffffff;
-  &__title{
+
+  &__title {
     margin-bottom: 16px;
     font-weight: 500;
     font-size: 24px;
@@ -13,12 +14,46 @@
     color: #0064EB;
 
   }
-  &__link{
+
+  &__link {
     color: inherit;
   }
-  &__description{
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
+
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .repository {
+    padding: 15px 15px;
+    margin-bottom: 15px;
+    min-height: 113px;
+
+    &__title {
+      font-size: 20px;
+      line-height: 26px;
+      margin-bottom: 10px;
+    }
+
+    &__description {
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 440px) {
+  .repository {
+    min-height: 100px;
+    &__title {
+
+    }
+
+    &__description {
+
+    }
   }
 }

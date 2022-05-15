@@ -19,3 +19,28 @@
     margin-right: 4px;
   }
 }
+
+@media (max-width: 1024px) {
+  .icon {
+    //display: flex;
+    //font-weight: 400;
+    //font-size: 16px;
+    //line-height: 150%;
+
+    &:first-child {
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+
+    &__img {
+      //width: 24px;
+      //height: 24px;
+      //margin-right: 8px;
+    }
+
+
+    &__count {
+      //margin-right: 4px;
+    }
+  }
+}

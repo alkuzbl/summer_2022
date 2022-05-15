@@ -17,7 +17,6 @@
 
   &__list {
     display: flex;
-
   }
 
   &__item {
@@ -32,14 +31,22 @@
   }
 
   &__totalPage {
-    cursor: pointer;
     padding: 2px 0;
     margin-right: 26px;
   }
 
   .active {
+    cursor: default;
     background-color: #0064EB;
     color: #ffffff;
   }
 
+}
+
+@media (max-width: 440px) {
+  .pagination {
+    &__pages {
+      display: none;
+    }
+  }
 }

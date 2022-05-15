@@ -2,8 +2,8 @@ import React, { FC, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { usePagination } from '../../hooks/usePagination2';
-import { setCurrentPage, setIndexPage } from '../../redux/reducers/repository-reducer';
+import { usePagination } from '../../hooks/usePagination';
+import { setCurrentPage } from '../../redux/reducers/repository-reducer';
 import { AppDispatch, RootState } from '../../redux/store';
 import { ArrowButton } from '../ArrowButton/ArrowButton';
 
@@ -17,51 +17,42 @@ export const Pagination: FC<PaginationPropsType> = props => {
   const defaultCurrentPage = useSelector<RootState, number>(
     state => state.repository.currentPage,
   );
-  const defaultIndex = useSelector<RootState, number>(
-    state => state.repository.defaultIndex,
-  );
 
   const dispatch = useDispatch<AppDispatch>();
 
   const {
-    firstElement,
-    lastElement,
-    nextPage,
-    prevPage,
-    selectPage,
+    currentPage,
     pages,
     totalCountPages,
-    currentPage,
-    index,
+    minPageValue,
+    maxPageValue,
+    onClickSelectPage,
+    onClickArrowButton,
   } = usePagination({
     perPage,
     portionSize,
     totalCount,
     defaultCurrentPage,
-    defaultIndex,
   });
 
-  const handleClickNextPage = (): void => nextPage();
+  const handleClickNextPage = (): void => onClickArrowButton(true);
 
-  const handleClickPrevPage = (): void => prevPage();
+  const handleClickPrevPage = (): void => onClickArrowButton(false);
 
-  const handleClickPage = (page: number): void => selectPage(page);
-
-  const showLastPage = (): void => {};
+  const handleClickPage = (page: number): void => onClickSelectPage(page);
 
   useEffect(() => {
     dispatch(setCurrentPage({ currentPage }));
-    dispatch(setIndexPage({ defaultIndex: index }));
-  }, [currentPage, defaultIndex]);
+  }, [currentPage]);
 
   return (
     <div className={styles.pagination}>
       <div className={styles.pagination__pages}>
-        <span>{firstElement}</span>-<span>{lastElement}</span> of{' '}
+        <span>{minPageValue}</span>-<span>{maxPageValue}</span> of{' '}
         <span>{totalCount}</span> items
       </div>
       <ArrowButton
-        disabled={currentPage <= portionSize}
+        disabled={currentPage <= 1}
         onClick={handleClickPrevPage}
         isPrevArrow
       />
@@ -84,13 +75,7 @@ export const Pagination: FC<PaginationPropsType> = props => {
           ))}
         </ul>
         <span className={styles.pagination__span}>...</span>
-        <span
-          role="presentation"
-          className={styles.pagination__totalPage}
-          onClick={showLastPage}
-        >
-          {totalCountPages}
-        </span>
+        <span className={styles.pagination__totalPage}>{totalCountPages}</span>
       </div>
       <ArrowButton
         disabled={currentPage >= totalCountPages}

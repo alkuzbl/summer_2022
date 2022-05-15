@@ -29,6 +29,6 @@ export type InitStateRepositoryType = {
   status: StatusType;
   repository: RepositoryType[];
   currentPage: number;
-  defaultIndex: number;
+  perPage: number;
   error: string | null;
 };

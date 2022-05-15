@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type UsePaginationType = {
   portionSize: number;
@@ -9,88 +9,85 @@ type UsePaginationType = {
 
 type ReturnUsePaginationType = {
   pages: number[];
-  prevPage: () => void;
-  nextPage: () => void;
-  selectPage: (page: number) => void;
+  onClickArrowButton: (isArrowNextButton: boolean) => void;
+  onClickSelectPage: (page: number) => void;
   totalCountPages: number;
   currentPage: number;
-  firstElement: number;
-  lastElement: number;
+  minPageValue: number;
+  maxPageValue: number;
 };
 
-const DEFAULT_NUMBER_PAGE = 1;
-const DEFAULT_INDEX = 1;
-
 export const usePagination = (options: UsePaginationType): ReturnUsePaginationType => {
-  const { totalCount, perPage, portionSize, defaultCurrentPage } = options;
+  const { totalCount, perPage = 4, portionSize = 3, defaultCurrentPage } = options;
+
+  const [portionNumber, setPortionNumber] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(defaultCurrentPage);
+
   const totalCountPages = Math.ceil(totalCount / perPage);
 
-  const [currentPage, setCurrentPage] = useState(defaultCurrentPage);
-  const [index, setIndex] = useState(DEFAULT_INDEX);
-
-  let lastElement = currentPage * perPage;
-  const firstElement = lastElement - perPage + 1;
-
-  if (lastElement > totalCount) {
-    lastElement = totalCount;
-  }
-
-  const dataPages: number[] = [];
-  for (let i = 1; i <= totalCountPages; i += 1) {
-    dataPages.push(i);
-  }
-  let pages: number[];
-
-  if (totalCountPages < index + portionSize && totalCountPages >= portionSize) {
-    pages = dataPages.slice(totalCountPages - portionSize, totalCountPages);
-  } else if (totalCountPages < portionSize) {
-    pages = dataPages.slice(0, totalCountPages);
+  let maxPageValue: number;
+  if (currentPage * perPage >= totalCount) {
+    maxPageValue = totalCount;
   } else {
-    pages = dataPages.slice(index - 1, index - 1 + portionSize);
+    maxPageValue = currentPage * perPage;
   }
 
-  const handleClickNextPage = (): void => {
-    setIndex(prevState => prevState + portionSize);
-    setCurrentPage(index - 1 + perPage);
-  };
+  let minPageValue: number;
+  if (maxPageValue - (perPage - 1) <= 1) {
+    minPageValue = 1;
+  } else {
+    minPageValue = maxPageValue - (perPage - 1);
+  }
 
-  const handleClickPrevPage = (): void => {
-    if (index <= DEFAULT_INDEX) {
-      setIndex(DEFAULT_INDEX);
-      setCurrentPage(DEFAULT_NUMBER_PAGE);
-    } else {
-      setIndex(prevState => prevState - portionSize);
-      setCurrentPage(index - 1);
-    }
-  };
+  const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
+  const rightPortionPageNumber = portionNumber * portionSize;
 
-  const handleClickPage = (numberPage: number): void => {
-    if (pages.indexOf(numberPage) !== -1) {
-      if (numberPage > totalCountPages) {
+  const pages = [];
+  for (let i = 1; i <= totalCountPages; i += 1) {
+    pages.push(i);
+  }
+
+  const nextPage = portionSize * portionNumber + 1;
+  const prevPage = (portionNumber - 1) * portionSize;
+
+  const onClickArrowButton = (isArrowNextButton: boolean): void => {
+    if (isArrowNextButton) {
+      if (nextPage >= totalCountPages) {
         setCurrentPage(totalCountPages);
-      } else if (numberPage < 1) {
-        setCurrentPage(1);
+        setPortionNumber(portionNumber + 1);
       } else {
-        setCurrentPage(numberPage);
+        setCurrentPage(nextPage);
+        setPortionNumber(portionNumber + 1);
       }
-    } else if (numberPage > totalCountPages) {
-      setCurrentPage(totalCountPages);
-    } else if (numberPage < 1) {
+    } else if (prevPage <= 1) {
       setCurrentPage(1);
+      setPortionNumber(1);
     } else {
-      setCurrentPage(numberPage);
-      setIndex(numberPage);
+      setPortionNumber(portionNumber - 1);
+      setCurrentPage(prevPage);
     }
   };
+  console.log('nextPage', nextPage);
+  console.log('portionNumber', portionNumber);
+  console.log('prevPage', prevPage);
+
+  const onClickSelectPage = (numberPage: number): void => {
+    setCurrentPage(numberPage);
+  };
+
+  useEffect(() => {
+    setCurrentPage(defaultCurrentPage);
+  }, []);
 
   return {
-    pages,
-    prevPage: handleClickPrevPage,
-    nextPage: handleClickNextPage,
-    selectPage: handleClickPage,
+    pages: pages.filter(
+      page => page >= leftPortionPageNumber && page <= rightPortionPageNumber,
+    ),
+    onClickArrowButton,
+    onClickSelectPage,
     totalCountPages,
     currentPage,
-    firstElement,
-    lastElement,
+    minPageValue,
+    maxPageValue,
   };
 };

@@ -18,14 +18,16 @@ export const Profile: FC<ProfilePropsType> = ({ user }) => {
   return (
     <div className={styles.profile}>
       <img className={styles.profile__img} src={avatar} alt="user" />
-      <p className={styles.profile__title}>{name}</p>
-      <a className={styles.profile__link} href={url} target="_blank" rel="noreferrer">
-        {login}
-      </a>
+      <div className={styles.profile__info}>
+        <p className={styles.profile__title}>{name}</p>
+        <a className={styles.profile__link} href={url} target="_blank" rel="noreferrer">
+          {login}
+        </a>
 
-      <div className={styles.profile__inner}>
-        <IconPerson icon={persons} numberSubscriptions={followers} text="followers" />
-        <IconPerson icon={person} numberSubscriptions={following} text="following" />
+        <div className={styles.profile__inner}>
+          <IconPerson icon={persons} numberSubscriptions={followers} text="followers" />
+          <IconPerson icon={person} numberSubscriptions={following} text="following" />
+        </div>
       </div>
     </div>
   );
