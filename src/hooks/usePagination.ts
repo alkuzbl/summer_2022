@@ -52,16 +52,14 @@ export const usePagination = (options: UsePaginationType): ReturnUsePaginationTy
 
   const onClickArrowButton = (isArrowNextButton: boolean): void => {
     if (isArrowNextButton) {
-      if (nextPage >= totalCountPages) {
+      if (nextPage > totalCountPages) {
         setCurrentPage(totalCountPages);
-        setPortionNumber(portionNumber + 1);
       } else {
         setCurrentPage(nextPage);
         setPortionNumber(portionNumber + 1);
       }
-    } else if (prevPage <= 1) {
+    } else if (prevPage < 1) {
       setCurrentPage(1);
-      setPortionNumber(1);
     } else {
       setPortionNumber(portionNumber - 1);
       setCurrentPage(prevPage);

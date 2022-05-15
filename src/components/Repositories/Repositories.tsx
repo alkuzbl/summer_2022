@@ -19,7 +19,9 @@ export type RepositoriesPropsType = {
   login: string;
 };
 
-export const Repositories: FC<RepositoriesPropsType> = ({ publicRepos, login }) => {
+export const Repositories: FC<RepositoriesPropsType> = props => {
+  const { publicRepos, login } = props;
+
   const dispatch = useDispatch<AppDispatch>();
 
   const repositories = useSelector<RootState, RepositoryType[]>(

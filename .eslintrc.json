@@ -54,7 +54,8 @@
       "off",
       {
         "ignoreEnums": true,
-        "ignoreNumericLiteralTypes": true
+        "ignoreNumericLiteralTypes": true,
+        "ignoreTypeIndexes": true
       }
     ],
     "@typescript-eslint/no-use-before-define": [

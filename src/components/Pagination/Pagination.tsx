@@ -10,15 +10,16 @@ import { ArrowButton } from '../ArrowButton/ArrowButton';
 import styles from './styles/Pagination.module.scss';
 import { PaginationPropsType } from './types';
 
-const portionSize = 3;
+const PORTION_SIZE = 3;
+const PAGE_ONE = 1;
 
 export const Pagination: FC<PaginationPropsType> = props => {
   const { totalCount, perPage } = props;
+
+  const dispatch = useDispatch<AppDispatch>();
   const defaultCurrentPage = useSelector<RootState, number>(
     state => state.repository.currentPage,
   );
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const {
     currentPage,
@@ -30,7 +31,7 @@ export const Pagination: FC<PaginationPropsType> = props => {
     onClickArrowButton,
   } = usePagination({
     perPage,
-    portionSize,
+    portionSize: PORTION_SIZE,
     totalCount,
     defaultCurrentPage,
   });
@@ -52,7 +53,7 @@ export const Pagination: FC<PaginationPropsType> = props => {
         <span>{totalCount}</span> items
       </div>
       <ArrowButton
-        disabled={currentPage <= 1}
+        disabled={currentPage <= PAGE_ONE}
         onClick={handleClickPrevPage}
         isPrevArrow
       />

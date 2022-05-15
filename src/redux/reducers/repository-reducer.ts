@@ -4,6 +4,8 @@ import { getRepositories } from '../middlewares/getRepositories';
 import { getUser } from '../middlewares/getUser';
 import { InitStateRepositoryType, StatusType } from '../types';
 
+import { clearStore } from './user-reducer';
+
 const initStateRepository: InitStateRepositoryType = {
   status: 'idle',
   repository: [],
@@ -33,6 +35,7 @@ const repositorySlice = createSlice({
       state.status = 'failed';
     });
     builder.addCase(getUser.pending, () => initStateRepository);
+    builder.addCase(clearStore, () => initStateRepository);
   },
 });
 

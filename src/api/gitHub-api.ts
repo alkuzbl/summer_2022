@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { RepositoryType, UserType } from '../redux/types';
 
+import { RequestGitHubType } from './types';
+
 const instance = axios.create({
   baseURL: 'https://api.github.com',
 });
@@ -15,10 +17,4 @@ export const gitHubApi = {
         page,
       },
     }),
-};
-
-export type RequestGitHubType = {
-  userName: string;
-  perPage: number;
-  page: number;
 };
